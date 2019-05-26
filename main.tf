@@ -17,31 +17,81 @@ resource "aws_iam_role" "rds-scheduler" {
 EOF
 }
 
-data "aws_iam_policy_document" "rds-scheduler" {
+/* Find the RDS Cluster. We need its ARN */
+data "aws_rds_cluster" "rds-cluster" {
+  count = "${var.is_cluster ? 1 : 0}"
+  cluster_identifier = "${var.rds_identifier}"
+}
+
+/* Find the RDS Instance. We need its ARN */
+data "aws_db_instance" "rds-instance" {
+  count = "${var.is_cluster ? 0 : 1}"
+  db_instance_identifier = "${var.rds_identifier}"
+}
+
+data "aws_iam_policy_document" "rds-cluster" {
+  count = "${var.is_cluster ? 1 : 0}"
   statement {
     actions = [
-      "rds:DescribeDBInstances",
       "rds:DescribeDBClusters",
-      "rds:StartDBInstance",
       "rds:StartDBCluster",
-      "rds:StopDBInstance",
       "rds:StopDBCluster"
     ]
     resources = [
-      "*",
+      "${data.aws_rds_cluster.rds-cluster.arn}",
     ]
   }
 }
 
-resource "aws_iam_policy" "rds-scheduler" {
-  name = "${var.identifier}-rds-scheduler"
-  path = "/"
-  policy = "${data.aws_iam_policy_document.rds-scheduler.json}"
+data "aws_iam_policy_document" "rds-instance" {
+  count = "${var.is_cluster ? 0 : 1}"
+  statement {
+    actions = [
+      "rds:DescribeDBInstances",
+      "rds:StartDBInstance",
+      "rds:StopDBInstance"
+    ]
+    resources = [
+      "${data.aws_db_instance.rds-instance.arn}",
+    ]
+  }
 }
 
-resource "aws_iam_role_policy_attachment" "rds-scheduler" {
-    role       = "${aws_iam_role.rds-scheduler.name}"
-    policy_arn = "${aws_iam_policy.rds-scheduler.arn}"
+/* Add a couple of managed policies to allow Lambda to write to CloudWatch & XRay */
+resource "aws_iam_role_policy_attachment" "lambda-basic-execution" {
+  role = "${aws_iam_role.rds-scheduler.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda-xray" {
+  role = "${aws_iam_role.rds-scheduler.name}"
+  policy_arn = "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+}
+
+resource "aws_iam_policy" "rds-cluster" {
+  count = "${var.is_cluster ? 1 : 0}"
+  name = "${var.identifier}-rds-scheduler-rds-cluster"
+  path = "/"
+  policy = "${data.aws_iam_policy_document.rds-cluster.json}"
+}
+
+resource "aws_iam_policy" "rds-instance" {
+  count = "${var.is_cluster ? 0 : 1}"
+  name = "${var.identifier}-rds-scheduler-rds-instance"
+  path = "/"
+  policy = "${data.aws_iam_policy_document.rds-instance.json}"
+}
+
+resource "aws_iam_role_policy_attachment" "rds-cluster" {
+  count      = "${var.is_cluster ? 1 : 0}"
+  role       = "${aws_iam_role.rds-scheduler.name}"
+  policy_arn = "${aws_iam_policy.rds-cluster.arn}"
+}
+
+resource "aws_iam_role_policy_attachment" "rds-instance" {
+  count      = "${var.is_cluster ? 0 : 1}"
+  role       = "${aws_iam_role.rds-scheduler.name}"
+  policy_arn = "${aws_iam_policy.rds-instance.arn}"
 }
 
 /* Create a zip file containing the lambda code */
