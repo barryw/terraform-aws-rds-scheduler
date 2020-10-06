@@ -30,9 +30,9 @@ module "rds_schedule" {
   skip_execution = "${var.environment == "prod"}"
   identifier     = "${var.product_name}-${var.environment}"
 
-  /* Start the RDS cluster at 6:50am EDT Monday - Friday
+  /* Start the RDS cluster at 6:50am EDT Monday - Friday */
   up_schedule    = "cron(50 10 ? * MON-FRI *)"
-  /* Stop the RDS cluster at 9pm EDT every night
+  /* Stop the RDS cluster at 9pm EDT every night */
   down_schedule  = "cron(0 1 * * ? *)"
 
   rds_identifier = "${data.aws_rds_cluster.rds.cluster_identifier}"
@@ -51,9 +51,9 @@ module "rds_schedule" {
   skip_execution = var.environment == "prod"
   identifier     = "${var.product_name}-${var.environment}"
 
-  /* Start the RDS cluster at 6:50am EDT Monday - Friday
+  /* Start the RDS cluster at 6:50am EDT Monday - Friday */
   up_schedule    = "cron(50 10 ? * MON-FRI *)"
-  /* Stop the RDS cluster at 9pm EDT every night
+  /* Stop the RDS cluster at 9pm EDT every night */
   down_schedule  = "cron(0 1 * * ? *)"
 
   rds_identifier = data.aws_rds_cluster.rds.cluster_identifier
