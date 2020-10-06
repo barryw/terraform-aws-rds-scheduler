@@ -17,9 +17,9 @@ variable "is_cluster" {
 }
 
 variable "up_schedule" {
-  description = "The cron schedule for the period when you want RDS up"
+  description = "The cron schedule for the period when you want RDS up. Times are specified in UTC."
 }
 
 variable "down_schedule" {
-  description = "The cron schedule for the period when you want RDS down"
+  description = "The cron schedule for the period when you want RDS down. Times are specified in UTC."
 }
