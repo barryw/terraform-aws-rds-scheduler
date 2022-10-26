@@ -104,7 +104,7 @@ data "archive_file" "rds-scheduler" {
   source_dir = "${path.module}/package"
   output_path = "${path.module}/rds-scheduler.zip"
 }
-
+#tfsec:ignore:aws-lambda-enable-tracing
 /* The lambda resource */
 resource "aws_lambda_function" "rds-scheduler" {
   filename = data.archive_file.rds-scheduler.output_path
