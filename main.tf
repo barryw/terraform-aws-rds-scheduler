@@ -112,7 +112,7 @@ resource "aws_lambda_function" "rds-scheduler" {
   description = "Start and stop an RDS cluster/instance on a schedule"
   role = aws_iam_role.rds-scheduler.arn
   handler = "rds_scheduler.lambda_handler"
-  runtime = "python3.7"
+  runtime = "python3.12"
   timeout = 300
   source_code_hash = data.archive_file.rds-scheduler.output_base64sha256
 
