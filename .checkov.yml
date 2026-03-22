@@ -1,0 +1,6 @@
+skip-check:
+  - CKV_AWS_115  # Concurrency limit — not needed for cron-triggered Lambda
+  - CKV_AWS_116  # DLQ — start/stop is idempotent, next cron invocation retries
+  - CKV_AWS_117  # VPC — Lambda only calls RDS API, no VPC resources needed
+  - CKV_AWS_173  # Env var encryption — values are resource identifiers and ARNs, not secrets
+  - CKV_AWS_272  # Code-signing — module packages Lambda inline from source
