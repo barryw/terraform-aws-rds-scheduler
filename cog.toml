@@ -1,12 +1,11 @@
 from_latest_tag = true
 ignore_merge_commits = true
+branch_whitelist = ["master"]
 tag_prefix = "v"
+skip_ci = "[skip ci]"
+skip_untracked = false
 
-pre_bump_hooks = [
-  "cog changelog --at {{version}} > CHANGELOG.md",
-  "git add CHANGELOG.md",
-]
-
+pre_bump_hooks = []
 post_bump_hooks = []
 
 [changelog]
@@ -15,3 +14,19 @@ template = "remote"
 remote = "github.com"
 repository = "terraform-aws-rds-scheduler"
 owner = "barryw"
+
+[commit_types]
+feat = { changelog_title = "Features" }
+fix = { changelog_title = "Bug Fixes" }
+docs = { changelog_title = "Documentation" }
+refactor = { changelog_title = "Refactoring" }
+test = { changelog_title = "Tests" }
+chore = { changelog_title = "Miscellaneous" }
+perf = { changelog_title = "Performance" }
+ci = { changelog_title = "CI/CD" }
+
+[git_hooks.commit-msg]
+script = """#!/bin/sh
+set -e
+cog verify --file $1
+"""
