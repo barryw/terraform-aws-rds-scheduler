@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v3.0.2](https://github.com/barryw/terraform-aws-rds-scheduler/compare/5376eb1d75f9e7cd925476d71f985a58fa5a8808..v3.0.2) - 2026-03-22
+#### Bug Fixes
+- add ARN overrides for Lambda and CloudWatch resources in tests - ([3672b1f](https://github.com/barryw/terraform-aws-rds-scheduler/commit/3672b1fe671cab40bd85dc11415a40ec59893deb)) - Barry Walker
+- add override_resource for IAM ARNs in test files - ([fe1f7a1](https://github.com/barryw/terraform-aws-rds-scheduler/commit/fe1f7a100687c4153245a8e030e539c61a425f36)) - Barry Walker
+- remove index from override_data targets for OpenTofu compatibility - ([5376eb1](https://github.com/barryw/terraform-aws-rds-scheduler/commit/5376eb1d75f9e7cd925476d71f985a58fa5a8808)) - Barry Walker
+
+- - -
+
 ## [v3.0.1](https://github.com/barryw/terraform-aws-rds-scheduler/compare/4ae5b38a69cd15263d63469d145092e215a790b3..v3.0.1) - 2026-03-22
 #### Bug Fixes
 - skip inapplicable checkov checks for simple cron Lambda - ([2d77d3d](https://github.com/barryw/terraform-aws-rds-scheduler/commit/2d77d3dcb8eca9f6e68b26a3645b1ea236c1ef27)) - Barry Walker
