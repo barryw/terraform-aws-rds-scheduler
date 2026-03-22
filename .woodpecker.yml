@@ -1,0 +1,96 @@
+steps:
+  - name: terraform-validate
+    image: hashicorp/terraform:1.14
+    depends_on: []
+    commands:
+      - terraform init -backend=false
+      - terraform fmt -check -recursive
+      - terraform validate
+    when:
+      - event: [push, pull_request]
+
+  - name: cog-check
+    image: ghcr.io/cocogitto/cocogitto:7.0.0
+    depends_on: []
+    commands:
+      - cog check
+    when:
+      - event: pull_request
+
+  - name: tflint
+    image: ghcr.io/terraform-linters/tflint:v0.61.0
+    depends_on: []
+    commands:
+      - tflint --init
+      - tflint
+    when:
+      - event: [push, pull_request]
+
+  - name: trivy
+    image: aquasec/trivy:0.69.3
+    depends_on: []
+    commands:
+      - trivy config --exit-code 1 .
+    when:
+      - event: [push, pull_request]
+
+  - name: checkov
+    image: bridgecrew/checkov:3.2
+    depends_on: []
+    commands:
+      - checkov -d . --framework terraform --compact --quiet
+    when:
+      - event: [push, pull_request]
+
+  - name: pytest
+    image: python:3.12-slim
+    depends_on: []
+    commands:
+      - pip install --quiet pytest boto3 botocore
+      - pytest tests/python/ -v
+    when:
+      - event: [push, pull_request]
+
+  - name: terraform-test
+    image: hashicorp/terraform:1.14
+    depends_on: []
+    commands:
+      - terraform init -backend=false
+      - terraform test
+    when:
+      - event: [push, pull_request]
+
+  - name: docs-check
+    image: quay.io/terraform-docs/terraform-docs:0.18.0
+    depends_on: []
+    commands:
+      - /terraform-docs . --output-check
+    when:
+      - event: [push, pull_request]
+
+  - name: generate-changelog
+    image: ghcr.io/cocogitto/cocogitto:7.0.0
+    depends_on:
+      - terraform-validate
+      - tflint
+      - trivy
+      - checkov
+      - pytest
+      - terraform-test
+      - docs-check
+    commands:
+      - cog changelog --at ${CI_COMMIT_TAG} > release_notes.md
+    when:
+      - event: tag
+
+  - name: release
+    image: plugins/github-release
+    depends_on:
+      - generate-changelog
+    settings:
+      api_key:
+        from_secret: github_token
+      title: ${CI_COMMIT_TAG}
+      note: release_notes.md
+    when:
+      - event: tag
