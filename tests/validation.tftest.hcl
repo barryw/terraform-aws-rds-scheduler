@@ -6,13 +6,13 @@ mock_provider "aws" {
     }
   }
   override_data {
-    target = data.aws_iam_policy_document.rds-cluster[0]
+    target = data.aws_iam_policy_document.rds-cluster
     values = {
       json = "{\"Version\":\"2012-10-17\",\"Statement\":[]}"
     }
   }
   override_data {
-    target = data.aws_rds_cluster.rds-cluster[0]
+    target = data.aws_rds_cluster.rds-cluster
     values = {
       arn = "arn:aws:rds:us-east-1:123456789012:cluster:my-db"
     }

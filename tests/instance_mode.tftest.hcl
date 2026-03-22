@@ -6,13 +6,13 @@ mock_provider "aws" {
     }
   }
   override_data {
-    target = data.aws_iam_policy_document.rds-instance[0]
+    target = data.aws_iam_policy_document.rds-instance
     values = {
       json = "{\"Version\":\"2012-10-17\",\"Statement\":[]}"
     }
   }
   override_data {
-    target = data.aws_db_instance.rds-instance[0]
+    target = data.aws_db_instance.rds-instance
     values = {
       db_instance_arn = "arn:aws:rds:us-east-1:123456789012:db:my-rds-instance"
     }
