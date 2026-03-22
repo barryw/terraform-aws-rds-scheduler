@@ -1,1 +1,5 @@
-template: release-tag-only
+template: release-terraform
+data:
+  terraform_version: "1.14"
+  python_version: "3.12"
+  docs_check: true
