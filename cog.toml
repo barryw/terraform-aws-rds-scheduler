@@ -1,0 +1,17 @@
+from_latest_tag = true
+ignore_merge_commits = true
+tag_prefix = "v"
+
+pre_bump_hooks = [
+  "cog changelog --at {{version}} > CHANGELOG.md",
+  "git add CHANGELOG.md",
+]
+
+post_bump_hooks = []
+
+[changelog]
+path = "CHANGELOG.md"
+template = "remote"
+remote = "github.com"
+repository = "terraform-aws-rds-scheduler"
+owner = "barryw"
