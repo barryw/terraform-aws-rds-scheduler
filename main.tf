@@ -25,6 +25,10 @@ resource "aws_lambda_function" "rds-scheduler" {
   timeout          = 300
   source_code_hash = data.archive_file.rds-scheduler.output_base64sha256
 
+  tracing_config {
+    mode = "Active"
+  }
+
   environment {
     variables = {
       RDS_IDENTIFIER  = var.rds_identifier
