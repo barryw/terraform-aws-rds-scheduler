@@ -2,7 +2,7 @@ name: Generate terraform docs
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
     paths:
       - "*.tf"
       - ".terraform-docs.yml"

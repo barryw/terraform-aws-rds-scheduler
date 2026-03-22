@@ -1,6 +1,6 @@
 from_latest_tag = true
 ignore_merge_commits = true
-branch_whitelist = ["master"]
+branch_whitelist = ["main"]
 tag_prefix = "v"
 skip_ci = "[skip ci]"
 skip_untracked = false
