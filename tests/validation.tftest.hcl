@@ -17,6 +17,18 @@ mock_provider "aws" {
       arn = "arn:aws:rds:us-east-1:123456789012:cluster:my-db"
     }
   }
+  override_resource {
+    target = aws_iam_role.rds-scheduler
+    values = {
+      arn = "arn:aws:iam::123456789012:role/test-app-rds-scheduler"
+    }
+  }
+  override_resource {
+    target = aws_iam_policy.rds-cluster
+    values = {
+      arn = "arn:aws:iam::123456789012:policy/test-app-rds-scheduler-rds-cluster"
+    }
+  }
 }
 mock_provider "archive" {}
 

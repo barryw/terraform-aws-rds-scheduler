@@ -17,6 +17,18 @@ mock_provider "aws" {
       db_instance_arn = "arn:aws:rds:us-east-1:123456789012:db:my-rds-instance"
     }
   }
+  override_resource {
+    target = aws_iam_role.rds-scheduler
+    values = {
+      arn = "arn:aws:iam::123456789012:role/test-instance-app-rds-scheduler"
+    }
+  }
+  override_resource {
+    target = aws_iam_policy.rds-instance
+    values = {
+      arn = "arn:aws:iam::123456789012:policy/test-instance-app-rds-scheduler-rds-instance"
+    }
+  }
 }
 mock_provider "archive" {}
 
