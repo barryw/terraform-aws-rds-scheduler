@@ -29,6 +29,24 @@ mock_provider "aws" {
       arn = "arn:aws:iam::123456789012:policy/test-cluster-app-rds-scheduler-rds-cluster"
     }
   }
+  override_resource {
+    target = aws_lambda_function.rds-scheduler
+    values = {
+      arn = "arn:aws:lambda:us-east-1:123456789012:function:test-cluster-app-rds-scheduler"
+    }
+  }
+  override_resource {
+    target = aws_cloudwatch_event_rule.up-schedule
+    values = {
+      arn = "arn:aws:events:us-east-1:123456789012:rule/test-cluster-app-up-schedule"
+    }
+  }
+  override_resource {
+    target = aws_cloudwatch_event_rule.down-schedule
+    values = {
+      arn = "arn:aws:events:us-east-1:123456789012:rule/test-cluster-app-down-schedule"
+    }
+  }
 }
 mock_provider "archive" {}
 
