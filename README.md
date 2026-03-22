@@ -16,7 +16,7 @@ Use version `~> 2.0` for Terraform 0.12–1.4. Use version `~> 1.1` for Terrafor
 
 ```hcl
 module "rds_schedule" {
-  source = "github.com/barryw/terraform-aws-rds-scheduler?ref=v3.0.0"
+  source = "github.com/barryw/terraform-aws-rds-scheduler"
 
   identifier     = "${var.product_name}-${var.environment}"
   rds_identifier = data.aws_rds_cluster.rds.cluster_identifier
@@ -39,7 +39,7 @@ For standalone RDS instances (non-Aurora), set `is_cluster = false`:
 
 ```hcl
 module "rds_schedule" {
-  source = "github.com/barryw/terraform-aws-rds-scheduler?ref=v3.0.0"
+  source = "github.com/barryw/terraform-aws-rds-scheduler"
 
   identifier     = "my-app-staging"
   rds_identifier = data.aws_db_instance.rds.identifier
