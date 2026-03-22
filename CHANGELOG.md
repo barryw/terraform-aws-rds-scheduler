@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v3.0.1](https://github.com/barryw/terraform-aws-rds-scheduler/compare/4ae5b38a69cd15263d63469d145092e215a790b3..v3.0.1) - 2026-03-22
+#### Bug Fixes
+- skip inapplicable checkov checks for simple cron Lambda - ([2d77d3d](https://github.com/barryw/terraform-aws-rds-scheduler/commit/2d77d3dcb8eca9f6e68b26a3645b1ea236c1ef27)) - Barry Walker
+- commit provider lock file with cross-platform checksums - ([4ae5b38](https://github.com/barryw/terraform-aws-rds-scheduler/commit/4ae5b38a69cd15263d63469d145092e215a790b3)) - Barry Walker
+
+- - -
+
 ## [v3.0.0](https://github.com/barryw/terraform-aws-rds-scheduler/compare/a1466664d8fd74d36fec592d2e8bf5c52f0eb4f5..v3.0.0) - 2026-03-22
 #### Features
 - add variable validation for identifier, rds_identifier, and cron schedules - ([e69426e](https://github.com/barryw/terraform-aws-rds-scheduler/commit/e69426e70ee519f0f7d04133cedd27bcc1d889bc)) - Barry Walker, Claude Opus 4.6 (1M context)
