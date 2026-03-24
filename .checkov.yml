@@ -4,3 +4,5 @@ skip-check:
   - CKV_AWS_117  # VPC — Lambda only calls RDS API, no VPC resources needed
   - CKV_AWS_173  # Env var encryption — values are resource identifiers and ARNs, not secrets
   - CKV_AWS_272  # Code-signing — module packages Lambda inline from source
+skip-path:
+  - tests/integration  # Throwaway test infrastructure, not production code
